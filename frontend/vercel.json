@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://executive-productivity-agent-api.onrender.com/api/:path*"
+    }
+  ]
+}
