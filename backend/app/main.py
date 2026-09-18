@@ -13,6 +13,7 @@ from app.api.health import router as health_router
 from app.api.people import router as people_router
 from app.api.commitments import router as commitments_router
 from app.api.sources import router as sources_router
+from app.api.ingestion import router as ingestion_router
 
 # Import models so all tables are registered with Base.metadata
 import app.models  # noqa: F401
@@ -47,3 +48,4 @@ app.include_router(health_router, prefix="/api")
 app.include_router(people_router, prefix="/api")
 app.include_router(commitments_router, prefix="/api")
 app.include_router(sources_router, prefix="/api")
+app.include_router(ingestion_router, prefix="/api")

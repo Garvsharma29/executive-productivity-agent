@@ -34,6 +34,11 @@ class CalendarEvent(Base):
         JSON, nullable=True
     )
 
+    # Whose calendar this event appears on.
+    owner_person_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        Uuid, ForeignKey("people.id"), nullable=True, index=True
+    )
+
     # Link back to the Source record this event was ingested from.
     source_id: Mapped[Optional[uuid.UUID]] = mapped_column(
         Uuid, ForeignKey("sources.id"), nullable=True
@@ -42,9 +47,13 @@ class CalendarEvent(Base):
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
     # --- Relationships ---
+    owner: Mapped[Optional["Person"]] = relationship(
+        "Person", lazy="select"
+    )
     source: Mapped[Optional["Source"]] = relationship(
         "Source", back_populates="calendar_events", lazy="select"
     )
 
     def __repr__(self) -> str:
         return f"<CalendarEvent {self.title!r} @ {self.start_time}>"
+
