@@ -38,8 +38,31 @@ def list_commitments(
 
     results = []
     for c in commitments:
-        data = CommitmentRead.model_validate(c)
-        data.is_overdue = c.is_overdue(reference)
+        data = CommitmentRead(
+            id=c.id,
+            action=c.action,
+            raw_action=c.raw_action,
+            ownership_type=c.ownership_type,
+            owner_person_id=c.owner_person_id,
+            counterpart_person_id=c.counterpart_person_id,
+            deadline_date=c.deadline_date,
+            deadline_raw=c.deadline_raw,
+            deadline_precision=c.deadline_precision,
+            status=c.status,
+            created_at=c.created_at,
+            updated_at=c.updated_at,
+            is_overdue=c.is_overdue(reference),
+            source_links=c.source_links,
+        )
         results.append(data)
 
     return results
+
+
+@router.post("/commitments/pipeline/run")
+def run_commitment_pipeline(db: Session = Depends(get_db)):
+    """Run the commitment extraction, normalization, and deduplication pipeline."""
+    from app.services.extraction.commitment_pipeline import CommitmentPipeline
+
+    pipeline = CommitmentPipeline(db=db)
+    return pipeline.run()
