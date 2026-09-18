@@ -8,3 +8,12 @@ from app.schemas.commitment import (  # noqa: F401
     CommitmentRead,
     CommitmentSourceRead,
 )
+from app.schemas.agent import (  # noqa: F401
+    EvidenceItem,
+    BriefCommitmentItem,
+    CalendarEventItem,
+    DailyBriefResponse,
+    AgentQueryRequest,
+    AgentQueryResponse,
+)
+
